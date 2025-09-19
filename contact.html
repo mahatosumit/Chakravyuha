@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Contacts | Chakravyuha Hackathon</title>
+	<link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Condensed:400,700|Roboto+Slab:400,700|DM+Sans:400,700&display=swap" rel="stylesheet" />
+	<style>
+        body {
+           background: radial-gradient(circle at 60% 40%, #FFD166 0%, #FF6A28 20%, #35221e 60%, #532317f7 100%);
+            color: #FFD166;
+            min-height: 100vh;
+            font-family: 'DM Sans', 'Roboto', 'Roboto Slab', 'Roboto Condensed', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ========== NAVBAR (replaced with new design) ========== */
+        .navbar {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          width: 100%;
+          z-index: 1100;
+          padding: 0.6rem 0;
+          background: linear-gradient(90deg, rgba(10,10,12,0.85), rgba(20,10,15,0.75));
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .navbar::before{ content:""; position:absolute; inset:0; pointer-events:none;
+          background: linear-gradient(90deg, rgba(255,106,40,0.02), rgba(255,209,102,0.02)); mix-blend-mode:overlay; }
+
+        .nav-content{
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1rem;
+          display:flex; align-items:center; gap:1rem; justify-content:space-between;
+        }
+
+        .logo { display:flex; align-items:center; flex:0 0 auto; }
+        .logo-image { display:block; width:200px; max-width:100%; height:auto; transition:transform .2s ease; }
+
+        .nav-links { display:flex; gap:1.5rem; list-style:none; margin:0; padding:0; align-items:center; }
+        @media (min-width:900px) { .nav-links { margin-left:auto; } }
+
+        .nav-links a {
+          color:#FFD166; text-decoration:none;
+          padding:.6rem 1.1rem; border-radius:12px;
+          font-size:1.05rem; font-weight:600; letter-spacing:.6px;
+          box-shadow:0 2px 8px #B86B2B; transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+          display:inline-block;
+        }
+        .nav-links a:hover {
+          background: linear-gradient(90deg,#FF6A28 33%,#FFD166 66%);
+          color:#3A0F0F;
+          box-shadow: 0 6px 20px rgba(255,209,102,0.12);
+          transform: translateY(-2px) scale(1.03);
+        }
+        /* active style */
+        .nav-links a.active {
+          background: linear-gradient(90deg,#FF6A28 33%,#FFD166 66%);
+          color:#3A0F0F;
+          box-shadow: 0 6px 20px rgba(255,209,102,0.18);
+        }
+
+        /* Hamburger */
+        .nav-toggle { display:none; background:none; border:none; padding:6px; margin-left:1rem; cursor:pointer; }
+        .hamburger { width:28px; height:3px; background:#FFD166; border-radius:3px; position:relative; display:inline-block; transition:all .25s ease; }
+        .hamburger::before, .hamburger::after { content:""; position:absolute; left:0; width:28px; height:3px; background:#FFD166; border-radius:3px; transition:all .25s ease; }
+        .hamburger::before { top:-8px } .hamburger::after { top:8px }
+
+        .nav-toggle[aria-expanded="true"] .hamburger { background:transparent; }
+        .nav-toggle[aria-expanded="true"] .hamburger::before { top:0; transform:rotate(45deg); }
+        .nav-toggle[aria-expanded="true"] .hamburger::after { top:0; transform:rotate(-45deg); }
+
+        /* Mobile dropdown (visible via .open) */
+        @media (max-width:900px){
+          .nav-toggle { display:flex; }
+
+          .nav-links {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 1rem;
+            width: 260px;
+            max-width: calc(100% - 2rem);
+            background: rgba(6,6,8,0.95);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding: .6rem;
+            flex-direction: column;
+            align-items: stretch;
+            gap: .5rem;
+            transform-origin: top right;
+            transform: translateY(-10px) scaleY(.95);
+            opacity: 0; pointer-events: none;
+            transition: opacity .22s ease, transform .22s ease;
+            z-index: 1200;
+            box-shadow:0 10px 40px rgba(0,0,0,0.6);
+          }
+
+          .nav-links.open { opacity:1; pointer-events:auto; transform: translateY(0) scaleY(1); }
+          .nav-links a { padding:.85rem 1rem; font-size:1rem; box-shadow:none; }
+          .logo-image { width:160px; }
+        }
+
+        /* ========== End navbar styles ========== */
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+        }
+
+        h1, h2, h3 {
+            color: #FFD166;
+            text-shadow: 0 2px 12px #8B1E1E44;
+        }
+        .events-card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .event-card {
+            min-width: 320px;
+            max-width: 400px;
+            flex: 1 1 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .event-card-item {
+            background: linear-gradient(135deg, #FFD166 0%, #ff6a284f 100%);
+            color: #3A0F0F;
+            border-radius: 14px;
+            box-shadow: 0 4px 16px #B86B2B;
+            padding: 1.2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            width: 350px;
+            padding: 0.7rem;
+        }
+        .event-card-item:hover {
+            transform: scale(1.05) translateY(-4px);
+            box-shadow: 0 8px 32px #FF6A28;
+            background: linear-gradient(135deg, #FF6A28 0%, #FFD166 100%);
+        }
+        .event-card-item i {
+            font-size: 2.2rem;
+            margin-bottom: 0.7rem;
+            color: #8B1E1E;
+            text-shadow: 0 2px 12px #FFD16644;
+        }
+        .event-grid {
+            max-width: 900px;
+            margin: 5.5rem auto 2rem auto;
+            padding: 2rem;
+            background: rgb(5 5 5 / 42%);
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,212,255,0.08);
+        }
+        .event-card-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #3A0F0F;
+            text-align: center;
+        }
+        .event-card-item p {
+            font-size: 1rem;
+            opacity: 0.92;
+            text-align: center;
+        }
+        .footer {
+            background: linear-gradient(90deg, #3A0F0F 0%, #8B1E1E 100%);
+            color: #FFD166;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+            border-top: 2px solid #FFD166;
+            font-size: 1.2rem;
+            box-shadow: 0 -4px 32px #5A2121;
+        }
+        .footer-section h3 {
+            color: #FFD166;
+        }
+        .footer-section p, .footer-section li {
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        .footer a {
+            color: #F8E08C;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #FF6A28;
+        }
+        /* Optional: Add concentric circle background animation */
+        body::before {
+            content: "";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 120vw;
+            height: 120vw;
+            transform: translate(-50%, -50%);
+            background: repeating-radial-gradient(circle at 60% 40%, #FFD16622 0px, #FF6A2822 120px, #8B1E1E22 240px, #0E0E1022 360px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.7;
+            animation: pulse-bg 8s infinite alternate;
+        }
+        @keyframes pulse-bg {
+            0% { opacity: 0.7; }
+            100% { opacity: 0.9; }
+        }
+        main, .navbar, .footer {
+            position: relative;
+            z-index: 1;
+        }
+        /* Improved button styling for Register Here */
+        a button {
+            background: linear-gradient(90deg, #FF6A28 0%, #FFD166 100%);
+            color: #3A0F0F;
+            border: none;
+            border-radius: 10px;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 12px #B86B2B;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+        a button:hover {
+            background: linear-gradient(90deg, #FFD166 0%, #FF6A28 100%);
+            color: #8B1E1E;
+            box-shadow: 0 4px 24px #FF6A28;
+            transform: scale(1.07);
+        }
+         /* MAP + footer kept simple — original styles preserved where possible */
+    .map-section{ padding:56px var(--container-padding);   border-top: 1px solid rgba(255,209,102,0.08); position:relative; z-index:1; }
+    .map-wrapper{ background: linear-gradient(180deg, rgba(255,209,102,0.04), rgba(58,15,15,0.08)); border:1px solid rgba(255,209,102,0.1); border-radius:16px; padding:14px; box-shadow: 0 15px 40px rgba(20,10,10,0.6); overflow:hidden; margin-bottom:28px; }
+    .map-iframe{ width:100%; height:420px; border:0; border-radius:10px; display:block; min-height:200px; }
+
+    .footer{ background: linear-gradient(90deg, #3A0F0F 0%, #8B1E1E 100%); color:var(--gold); padding:3rem 2rem 1rem; text-align:center; border-top:2px solid var(--gold); font-size:1.05rem; box-shadow:0 -4px 32px #5A2121; position:relative; z-index:1; }
+    .footer a{ color:#F8E08C; text-decoration:none; font-weight:600; }
+    .footer a:hover{ color: var(--fiery-orange); }
+    </style>
+</head>
+<body>
+<!-- ===== NAVBAR ===== -->
+	<nav class="navbar glass" id="navbar" role="navigation" aria-label="Main navigation">
+		<div class="nav-content">
+			<div class="logo">
+				<a href="index.html">
+					<img src="assets/logo.png" alt="Chakravyuha Logo" class="logo-image">
+				</a>
+			</div>
+
+			<button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Toggle menu">
+				<span class="hamburger" aria-hidden="true"></span>
+			</button>
+
+			<ul class="nav-links" id="nav-links" role="menubar">
+				<li role="none"><a role="menuitem" href="index.html">Home</a></li>
+				<li role="none"><a role="menuitem" href="events.html" >Events</a></li>
+				<li role="none"><a role="menuitem" href="hackathon.html">Hackathon</a></li>
+				<li role="none"><a role="menuitem" href="workshop.html">Workshop</a></li>
+				<li role="none"><a role="menuitem" href="specialevents.html">Robotics Events</a></li>
+				<li role="none"><a role="menuitem" href="accommendation.html" >Accommodation</a></li>
+        <li role="none"><a role="menuitem" href="contact.html" class="active">Contact</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<main class="event-grid">
+		<h1 style="text-align: center;">CONTACT</h1>
+		<section>
+			<div class="events-card-grid">
+				<div class="event-card">
+					<div class="event-card-item">
+						 <i class="fa-solid fa-calendar-days fa-3x"></i>
+                        <h3>EVENTS</h3>
+                <p style="font-weight: 700;">Sathish S</p>
+                <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i>  +91 7695988430</p>
+                <p style="font-weight: 700;">Dharuneesh K S</p> <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i>   +91 99941 86299</p>
+					</div>
+				</div>
+				<div class="event-card">
+					<div class="event-card-item">
+						<i class="fas fa-bug"></i>
+						<h3>HACKATHON</h3>
+                <p style="font-weight: 700;">Kousik Radhakrishnan G H </p>
+                <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i> +91 63854 64995</p>
+                <p style="font-weight: 700;">Saran S</p> <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i>   +91 93424 02567</p>
+					</div>
+				</div>
+				<div class="event-card">
+					<div class="event-card-item">
+					<i class="fa-solid fa-cubes"></i>
+						<h3>WORKSHOP</h3>
+               <p style="font-weight: 700;">Gokul M </p>
+                <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i> +91 87547 94973</p>
+                <p style="font-weight: 700;">Shubhakarini</p> <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i>   +91 90420 87382</p>
+              </div>
+				</div>
+                <div class="event-card">
+					<div class="event-card-item">
+						<i class="fas fa-robot"></i>
+						<h3>ROBO EVENTS</h3>
+                <p style="font-weight: 700;">Kamalraj S</p>
+                <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i> +91 99945 83827</p>
+                <p style="font-weight: 700;">Supreet B</p> <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i>   +91 99409 33907</p>
+              </div>
+				</div>
+			</div>
+		
+			<div class="events-card-grid">
+				<div class="event-card">
+					<div class="event-card-item">
+<i class="fa-solid fa-bowl-rice"></i>
+						<h3>ACCOMMODATION</h3>
+               <p style="font-weight: 700;">Dinesh Karthick K </p>
+                <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i> +91 94426 76754</p>
+                <p style="font-weight: 700;">Asvika S R</p> <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;font-size: 1.2rem;padding: 0.7rem;"></i>   +91 94875 84366</p>
+              	</div>
+				</div>
+				
+				
+			</div>
+            
+		</section>
+    <!-- MAP SECTION -->
+  <section class="map-section" aria-label="Find us">
+    		<h1 style="text-align: center;">Find Us</h1>
+
+  <div class="map-wrapper">
+    <iframe 
+      class="map-iframe"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3915.4945846888863!2d77.13944377512738!3d11.076468889091137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8ff7a08d662bb%3A0x81c68f2ddd8c1dfa!2sKPR%20Institute%20of%20Engineering%20and%20Technology!5e0!3m2!1sen!2sin!4v1758282639826!5m2!1sen!2sin"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe> 
+</div>
+  </section>
+	</main>
+	<footer class="footer" id="contact">
+        <div class="footer-content" style="max-width:1100px; margin:0 auto; display:flex; gap:2rem; flex-wrap:wrap; justify-content:space-between;">
+            <div class="footer-section" style="flex:1 1 260px;">
+                <h3>Contact HQ</h3>
+                <p><i class="fa-solid fa-location-dot" style="margin-right: 10px;"></i> KPR Institute of Engineering and Technology</p>
+                <p>Arasur, Tamil Nadu, India</p>
+                <p>Mr. Joel E</p>
+                <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;"></i> +91 79040 49603</p>
+            </div>
+
+            <div class="footer-section" style="flex:1 1 260px;">
+                <h3>Quick Access</h3>
+                <ul style="list-style: none; padding:0; margin:0;">
+                    <li ></li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeVLb8qTDRnOKIEju8xxk5gV-0gIVsxdSGXM2mhxozyo65NFg/viewform?usp=dialog" style="text-decoration: none;">Registration Portal</a></li>
+                   <li ></li><a href="accommendation.html" style="text-decoration: none;">Accommodation</a></li>
+                    <li></li><a href="contact.html" style="text-decoration: none; ">Any Queries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section" style="flex:1 1 260px;">
+                <h3>Contact Student Co-ordinators</h3>
+                <p>Mr. Kousik Radhakrishnan G H </p>
+                <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;"></i> +91 63854 64995</p>
+                <p>Mr. Ram Kumar V</p> <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;"></i>   +91 81488 99308</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0, 212, 255, 0.3);">
+            <p>&copy; 2025 Chakravyuha. All rights reserved. | Built by  <a href="https://www.mahatosumit.com.np/" style="text-decoration: none;font-weight: 600;">SUMIT MAHATO</a>  </p>
+        </div>
+    </footer>
+
+   <script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    if (navToggle && navLinks) {
+      navToggle.addEventListener('click', () => {
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!expanded));
+        navLinks.classList.toggle('open');
+      });
+
+      // Close menu on link click (use event delegation)
+      navLinks.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target.tagName === 'A') {
+          navLinks.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Close on outside click (mobile)
+      document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+          if (navLinks.classList.contains('open')) {
+            navLinks.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+    }
+
+    /* Optional: keep the navbar scroll effect if desired */
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (!navbar) return;
+
+      if (window.scrollY > 100) {
+        navbar.style.background = 'linear-gradient(90deg, rgba(8,8,10,0.95), rgba(22,10,14,0.95))';
+        navbar.style.backdropFilter = 'blur(18px)';
+        navbar.style.borderBottom = '1px solid rgba(0, 212, 255, 0.2)';
+      } else {
+        navbar.style.background = 'linear-gradient(90deg, rgba(10,10,12,0.85), rgba(20,10,15,0.75))';
+        navbar.style.backdropFilter = 'blur(8px)';
+        navbar.style.borderBottom = 'none';
+      }
+    });
+    </script>
+</body>
+</html>

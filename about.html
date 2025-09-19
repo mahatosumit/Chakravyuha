@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Chakravyuha Hackathon</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Condensed:400,700|Roboto+Slab:400,700|DM+Sans:400,700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ---------- variables & base ---------- */
+    :root{
+      --navbar-height: 72px;
+      --gold: #FFD166;
+      --light-gold: #FFE6A7;
+      --fiery-orange: #FF6A28;
+      --dark-red: #3A0F0F;
+      --radius: 12px;
+      --max-width: 1200px;
+      --container-padding: 1rem;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ width:100%; height:100%; margin:0; padding:0; overflow-x:hidden; }
+
+    body{
+      font-family: 'DM Sans', 'Roboto', sans-serif;
+      color: var(--gold);
+      min-height:100vh;
+      background: radial-gradient(circle at 60% 40%, #a58334 0%, #b05025 25%, #906b65 70%, #1a0a08 100%);
+      /* page background effect */
+    }
+
+    /* Keep page content visible below fixed navbar */
+    body{ padding-top: var(--navbar-height); }
+
+    /* ---------- decorative concentric background (behind content) ---------- */
+    body::before {
+      content: "";
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 120vw;
+      height: 120vw;
+      transform: translate(-50%, -50%);
+      background: repeating-radial-gradient(circle at 60% 40%,
+        #FFD16622 0px, #FF6A2822 120px, #8B1E1E22 240px, #0E0E1022 360px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.75;
+      animation: pulse-bg 8s infinite alternate;
+    }
+    @keyframes pulse-bg { 0%{opacity:0.7} 100%{opacity:0.9} }
+
+    /* ---------- NAVBAR (fixed & high z-index) ---------- */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--navbar-height);
+      padding: 0.6rem 0;
+      width: 100%;
+      background: linear-gradient(90deg, rgba(10,10,12,0.85), rgba(20,10,15,0.75));
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      z-index: 10000; /* sits above body::before and page content */
+      display:flex;
+      align-items: center;
+    }
+
+    .navbar.glass { /* keep if you apply .glass */
+      background: linear-gradient(90deg, rgba(10,10,12,0.72), rgba(20,10,15,0.62));
+    }
+
+    .navbar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(255,106,40,0.02), rgba(255,209,102,0.02));
+      mix-blend-mode: overlay;
+      z-index: 0;
+    }
+
+    .nav-content{
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width:100%;
+      position: relative;
+      z-index: 1; /* above navbar::before */
+    }
+
+    .logo { display:flex; align-items:center; }
+    .logo-image { width: 180px; max-width:100%; height:auto; display:block; }
+
+    /* ---------- nav links (desktop) ---------- */
+    .nav-links {
+      display:flex;
+      gap: 1.5rem;
+      list-style:none;
+      margin:0;
+      padding:0;
+      align-items:center;
+      position:relative; /* default */
+      z-index: 1;
+    }
+
+    .nav-links a{
+      color: var(--gold);
+      text-decoration: none;
+      padding: .6rem 1.1rem;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing:.6px;
+      box-shadow: 0 2px 8px #B86B2B;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      display:inline-block;
+    }
+    .nav-links a:hover{
+      background: linear-gradient(90deg,var(--fiery-orange) 33%, var(--gold) 66%);
+      color: var(--dark-red);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(255,209,102,0.12);
+    }
+    .nav-links a.active{
+      background: linear-gradient(90deg,var(--fiery-orange) 33%, var(--gold) 66%);
+      color: var(--dark-red);
+      box-shadow: 0 6px 20px rgba(255,209,102,0.18);
+    }
+
+    /* hamburger (desktop hidden) */
+    .nav-toggle{
+      display:none;
+      background:none;
+      border:0;
+      padding:6px;
+      margin-left:1rem;
+      cursor:pointer;
+      align-items:center;
+      justify-content:center;
+    }
+    .hamburger{
+      width:28px;
+      height:3px;
+      background: var(--gold);
+      border-radius:3px;
+      position:relative;
+      display:inline-block;
+      transition: all .25s ease;
+    }
+    .hamburger::before,
+    .hamburger::after{
+      content:"";
+      position:absolute;
+      left:0;
+      width:28px;
+      height:3px;
+      background: var(--gold);
+      border-radius:3px;
+      transition: all .25s ease;
+    }
+    .hamburger::before{ top:-8px; } .hamburger::after{ top:8px; }
+
+    .nav-toggle[aria-expanded="true"] .hamburger { background: transparent; }
+    .nav-toggle[aria-expanded="true"] .hamburger::before { top:0; transform:rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .hamburger::after  { top:0; transform:rotate(-45deg); }
+
+    /* ---------- mobile behaviour: only here we make nav-links float above page ---------- */
+    @media (max-width: 900px){
+      .nav-toggle{ display:flex; }
+
+      /* hide desktop inline links visually (we still keep them in DOM) */
+      .nav-links {
+        position: fixed; /* float above page */
+        top: calc(var(--navbar-height) + 8px); /* sits just below navbar */
+        right: 1rem;
+        width: 260px;
+        max-width: calc(100% - 2rem);
+        background: rgba(6,6,8,0.95);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        border-radius: 12px;
+        padding: .6rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: .5rem;
+        transform-origin: top right;
+        transform: translateY(-10px) scaleY(.95);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .22s ease, transform .22s ease;
+        z-index: 11000; /* high so it sits above page content */
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      }
+
+      .nav-links.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scaleY(1);
+      }
+
+      .nav-links a { padding:.85rem 1rem; font-size:1rem; box-shadow:none; }
+      .logo-image { width:160px; }
+    }
+
+    /* tiny screens */
+    @media (max-width:420px){
+      .logo-image { width:140px; }
+      .nav-links { gap:.6rem; right:.6rem; left:auto; }
+    }
+
+    /* ---------- main content styling (kept intact from your original) ---------- */
+    main{
+      position: relative;
+      z-index: 1; /* content above background but below navbar (navbar z-index is higher) */
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: calc(64px + 12px) var(--container-padding) 0;
+    }
+
+    h1,h2,h3 { color: var(--gold); text-shadow: 0 2px 12px #8B1E1E44; }
+
+    .about-hero {
+      text-align: center;
+      margin: 6rem auto 3rem;
+      padding: 48px 0 12px;
+    }
+    .about-hero h1 {
+      font-family: 'Roboto Slab', serif;
+      font-size: clamp(1.6rem, 2.6vw, 3rem);
+      margin:0 0 .6rem;
+      color:var(--gold);
+      text-shadow: 0 6px 18px rgba(58,15,15,0.45);
+      letter-spacing:.6px;
+    }
+    .about-hero p.lead { color:#ffcf65; font-weight:800; max-width:920px; margin:0 auto; font-size:clamp(.95rem,1.1vw + .9rem,1.15rem); opacity:.95; line-height:1.7; }
+
+    .about-block{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items:center;
+      margin: 40px 0;
+    }
+    @media (max-width: 768px) {
+      .about-block { grid-template-columns: 1fr; }
+    }
+    .about-block .visual, .about-block .copy { position: relative; z-index: 2; }
+
+    .visual{ padding:20px; border-radius: var(--radius); background: linear-gradient(180deg, rgba(255,209,102,0.05), rgba(58,15,15,0.08)); box-shadow: 0 12px 30px rgba(20,10,10,0.6); border:1px solid rgba(255,209,102,0.06); display:flex; justify-content:center; align-items:center; min-height:260px; overflow:hidden; }
+    .visual img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:8px; box-shadow: 0 8px 30px rgba(0,0,0,0.35); max-height:300px; }
+    .visual figcaption{ position:absolute; left:16px; bottom:14px; background: rgba(0,0,0,0.45); color:var(--light-gold); padding:6px 10px; border-radius:6px; font-weight:600; font-size:.95rem; backdrop-filter: blur(4px); }
+
+    .card{ background: linear-gradient(180deg, rgba(165,96,32,0.14), rgba(30,12,12,0.06)); border:1px solid rgba(255,209,102,0.12); border-radius: var(--radius); padding:30px; box-shadow:0 14px 40px rgba(20,10,10,0.55); position:relative; overflow:hidden; backdrop-filter: blur(6px); }
+    .card .ribbon { position:absolute; left:0; top:0; background: linear-gradient(90deg, rgba(139,30,30,0.98), var(--fiery-orange)); color:#fff; padding:10px 22px; font-weight:700; font-size:.85rem; border-top-right-radius:12px; border-bottom-right-radius:12px; box-shadow: 0 8px 18px rgba(0,0,0,0.45); letter-spacing:.4px; text-transform:uppercase; }
+    .card h3{ margin-top:44px; color:var(--gold); font-family:'Roboto Slab', serif; margin-bottom:12px; font-size:1.25rem; }
+    .card p{ color:var(--light-gold); line-height:1.7; margin-bottom:.85rem; font-size:.98rem; }
+
+    /* MAP + footer kept simple — original styles preserved where possible */
+    .map-section{ padding:56px var(--container-padding); background: linear-gradient(180deg, rgba(58,15,15,0.08), rgba(30,12,12,0.04)); border-top: 1px solid rgba(255,209,102,0.08); position:relative; z-index:1; }
+    .map-wrapper{ background: linear-gradient(180deg, rgba(255,209,102,0.04), rgba(58,15,15,0.08)); border:1px solid rgba(255,209,102,0.1); border-radius:16px; padding:14px; box-shadow: 0 15px 40px rgba(20,10,10,0.6); overflow:hidden; margin-bottom:28px; }
+    .map-iframe{ width:100%; height:420px; border:0; border-radius:10px; display:block; min-height:200px; }
+
+    .footer{ background: linear-gradient(90deg, #3A0F0F 0%, #8B1E1E 100%); color:var(--gold); padding:3rem 2rem 1rem; text-align:center; border-top:2px solid var(--gold); font-size:1.05rem; box-shadow:0 -4px 32px #5A2121; position:relative; z-index:1; }
+    .footer a{ color:#F8E08C; text-decoration:none; font-weight:600; }
+    .footer a:hover{ color: var(--fiery-orange); }
+
+  </style>
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar glass" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-content">
+      <div class="logo">
+        <a href="index.html">
+          <img src="assets/logo.png" alt="Chakravyuha Logo" class="logo-image">
+        </a>
+      </div>
+
+      <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Toggle menu">
+        <span class="hamburger" aria-hidden="true"></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links" role="menubar" aria-hidden="true">
+        <li role="none"><a role="menuitem" href="index.html">Home</a></li>
+        <li role="none"><a role="menuitem" href="events.html" >Events</a></li>
+        <li role="none"><a role="menuitem" href="hackathon.html">Hackathon</a></li>
+        <li role="none"><a role="menuitem" href="workshop.html" class="active">Workshop</a></li>
+        <li role="none"><a role="menuitem" href="specialevents.html">Robotics Events</a></li>
+        <li role="none"><a role="menuitem" href="accommendation.html">Accommodation</a></li>
+        <li role="none"><a role="menuitem" href="Contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE CONTENT -->
+  <main id="main-content" tabindex="-1">
+    <header class="about-hero">
+      <h1>About Us</h1>
+    </header>
+
+    <!-- Block 1: KPR -->
+    <section class="about-block">
+      <div class="visual">
+        <figure>
+          <img src="assets/kpr.jpg" alt="KPR Institute" loading="lazy" />
+          <figcaption>KPR Institute</figcaption>
+        </figure>
+      </div>
+      <div class="copy">
+        <article class="card">
+          <div class="ribbon">College</div>
+          <h2>KPR Institute of Engineering and Technology</h2>
+          <p>
+            KPR Institute of Engineering and Technology stands as one of Tamil Nadu’s most respected technical institutions. 
+            Located in Arasur, it is equipped with world-class infrastructure and offers a wide spectrum of programs. 
+            With strong ties to industry and research, the institution continues to nurture aspiring engineers and innovators.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Block 2: Mechatronics -->
+    <section class="about-block reverse">
+      <div class="copy">
+        <article class="card">
+          <div class="ribbon">Department</div>
+          <h2>Department of Mechatronics</h2>
+          <p>
+            The Department of Mechatronics fosters technical excellence through an interdisciplinary approach, 
+            blending mechanical, electronics, and computing. Students engage in real-world projects, 
+            automation, robotics, and AI applications, building skills to solve tomorrow’s engineering challenges.
+          </p>
+        </article>
+      </div>
+      <div class="visual">
+        <figure>
+          <img src="assets/mechatronics.jpg" alt="Department of Mechatronics" loading="lazy" />
+          <figcaption>Mechatronics Department</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Block 3: Chakravyuha -->
+    <section class="about-block">
+      <div class="visual">
+        <figure>
+          <img src="assets/chakravyuha.jpg" alt="Chakravyuha Hackathon" loading="lazy" />
+          <figcaption>Chakravyuha Hackathon</figcaption>
+        </figure>
+      </div>
+      <div class="copy">
+        <article class="card">
+          <div class="ribbon">Hackathon</div>
+          <h2>Chakravyuha</h2>
+          <p>
+            Chakravyuha is a battlefield of innovation — a techno-management fest where creativity, 
+            strategy, and engineering brilliance collide. With challenges in AI, IoT, robotics, and software, 
+            the event provides a platform for students to push limits and showcase their talent. 
+            It is truly the "Battle of Brains" that shapes tomorrow's leaders.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- MAP SECTION -->
+  <section class="map-section" aria-label="Find us">
+    <div class="map-container">
+      <h2>Find Us</h2>
+      <p>Located in the heart of Tamil Nadu, KPR Institute of Engineering and Technology is easily accessible from Coimbatore.</p>
+      <div class="map-wrapper">
+        <iframe class="map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.965318353945!2d77.0522580750812!3d10.96192588920069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba859af5f8c7d7b%3A0x4d7e6d2d2e63e3e5!2sKPR%20Institute%20of%20Engineering%20and%20Technology!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <div class="footer-content" style="max-width:1100px; margin:0 auto; display:flex; gap:2rem; flex-wrap:wrap; justify-content:space-between;">
+      <div class="footer-section" style="flex:1 1 260px;">
+        <h3>Contact HQ</h3>
+        <p><i class="fa-solid fa-location-dot" style="margin-right: 10px;"></i> KPR Institute of Engineering and Technology</p>
+        <p>Arasur, Tamil Nadu, India</p>
+        <p>Mr. Joel E</p>
+        <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;"></i> +91 79040 49603</p>
+      </div>
+
+      <div class="footer-section" style="flex:1 1 260px;">
+        <h3>Quick Access</h3>
+        <ul style="list-style: none; padding:0; margin:0;">
+          <li><a href="events.html" style="text-decoration: none;">Registration Portal</a></li>
+          <li><a href="accommodation.html" style="text-decoration: none;">Accommodation</a></li>
+          <li><a href="contact.html" style="text-decoration: none;">Any Queries</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section" style="flex:1 1 260px;">
+        <h3>Contact Student Co-ordinators</h3>
+        <p>Mr. Kousik Radhakrishnan G H </p>
+        <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;"></i> +91 63854 64995</p>
+        <p>Mr. Ram Kumar V</p>
+        <p><i class="fa-solid fa-phone-volume" style="margin-right: 10px;"></i> +91 81488 99308</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0, 212, 255, 0.3);">
+      <p>&copy; 2025 Chakravyuha. All rights reserved. | Built by <a href="https://www.mahatosumit.com.np/" style="text-decoration: none;font-weight: 600;">SUMIT MAHATO</a></p>
+    </div>
+  </footer>
+
+  <!-- ---------- JS: accessible toggle + outside click + escape to close + auto-activate ---------- -->
+  <script>
+    (function(){
+      const navToggle = document.querySelector('.nav-toggle');
+      const navLinks = document.getElementById('nav-links');
+      const navbar = document.getElementById('navbar');
+      const main = document.getElementById('main-content');
+
+      if(!navToggle || !navLinks) return;
+
+      // helper to set open/closed
+      function setOpen(open){
+        navToggle.setAttribute('aria-expanded', String(!!open));
+        navLinks.classList.toggle('open', !!open);
+        navLinks.setAttribute('aria-hidden', String(!open));
+        if(open){
+          const first = navLinks.querySelector('a');
+          if(first) first.focus();
+        } else {
+          navToggle.focus();
+        }
+      }
+
+      navToggle.addEventListener('click', (e) => {
+        const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+        setOpen(!isOpen);
+        e.stopPropagation();
+      });
+
+      // close on link click inside navLinks
+      navLinks.addEventListener('click', (e) => {
+        if(e.target && e.target.tagName && e.target.tagName.toLowerCase() === 'a'){
+          setOpen(false);
+        }
+      });
+
+      // click outside to close
+      document.addEventListener('click', (e) => {
+        if(!navLinks.classList.contains('open')) return;
+        const t = e.target;
+        if(!navLinks.contains(t) && !navToggle.contains(t) && !navbar.contains(t)){
+          setOpen(false);
+        }
+      });
+
+      // escape to close
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && navLinks.classList.contains('open')){
+          setOpen(false);
+        }
+      });
+
+      // Auto-activate nav link based on current pathname (best-effort)
+      (function autoActivate(){
+        const all = Array.from(document.querySelectorAll('.nav-links a'));
+        if(all.length === 0) return;
+        const current = window.location.pathname.split('/').pop().toLowerCase() || 'index.html';
+        let matched = false;
+        all.forEach(a => a.classList.remove('active'));
+        all.forEach(a => {
+          const href = (a.getAttribute('href') || '').split('/').pop().toLowerCase();
+          if(href && href === current){
+            a.classList.add('active'); matched = true;
+          }
+        });
+        if(!matched){
+          all.forEach(a => {
+            const href = (a.getAttribute('href') || '').replace('.html','').toLowerCase();
+            if(href && window.location.href.toLowerCase().includes(href)){
+              a.classList.add('active'); matched = true;
+            }
+          });
+        }
+        if(!matched && all[0]) all[0].classList.add('active');
+      })();
+
+      // optional: make skip-to-content links keyboard friendly
+      document.querySelectorAll('.skip-link').forEach(link => {
+        link.addEventListener('click', ()=> { setTimeout(()=> main && main.focus(), 10); });
+      });
+
+    })();
+  </script>
+</body>
+</html>
