@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Condensed:400,700|Roboto+Slab:400,700|DM+Sans:400,700&display=swap" rel="stylesheet" />
 	<style>
-       :root { --navbar-height: 64px; }
+        :root { --navbar-height: 64px; }
         body {
            background: radial-gradient(circle at 60% 40%, #FFD166 0%, #FF6A28 20%, #35221e 60%, #532317f7 100%);
             color: #FFD166;
@@ -17,6 +17,7 @@
             position: relative;
             overflow-x: hidden;
         }
+
         /* ========== NAVBAR (replaced with new design) ========== */
         .navbar {
           position: fixed;
@@ -81,8 +82,8 @@
           .nav-toggle { display:flex; }
 
           .nav-links {
-            position: absolute;
-            top: calc(100% + 8px);
+            position: fixed;
+           top: calc(var(--navbar-height) + 8px); /* sits just below navbar */
             right: 1rem;
             width: 260px;
             max-width: calc(100% - 2rem);
@@ -98,7 +99,7 @@
             transform: translateY(-10px) scaleY(.95);
             opacity: 0; pointer-events: none;
             transition: opacity .22s ease, transform .22s ease;
-            z-index: 1200;
+            z-index: 11000;
             box-shadow:0 10px 40px rgba(0,0,0,0.6);
           }
 
@@ -220,10 +221,7 @@
             0% { opacity: 0.7; }
             100% { opacity: 0.9; }
         }
-		main, .footer {
-			position: relative;
-			z-index: 1;
-		}
+        main, .footer { position: relative; z-index: 1; }
         /* Improved button styling for Register Here */
         a button {
             background: linear-gradient(90deg, #FF6A28 0%, #FFD166 100%);
@@ -244,6 +242,24 @@
             box-shadow: 0 4px 24px #FF6A28;
             transform: scale(1.07);
         }
+        /* Fix button layout for smaller screens */
+@media (max-width: 768px) {
+  section {
+    flex-direction: column !important;
+    align-items: center;
+    gap: 1rem; /* spacing between buttons */
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+
+  section a button {
+    width: 100%; /* make buttons take full width */
+    max-width: 280px; /* optional: limit width */
+    margin: 0 auto;   /* center align */
+    display: block;
+  }
+}
+
     </style>
 </head>
 <body>
@@ -264,9 +280,9 @@
 				<li role="none"><a role="menuitem" href="index.html">Home</a></li>
 				<li role="none"><a role="menuitem" href="events.html" >Events</a></li>
 				<li role="none"><a role="menuitem" href="hackathon.html">Hackathon</a></li>
-				<li role="none"><a role="menuitem" href="workshop.html" class="active">Workshop</a></li>
-				<li role="none"><a role="menuitem" href="specialevents.html">Robotics Events</a></li>
-				<li role="none"><a role="menuitem" href="accommendation.html">Accommodation</a></li>
+				<li role="none"><a role="menuitem" href="workshop.html"class="active" >Workshop</a></li>
+				<li role="none"><a role="menuitem" href="specialevents.html" >Robotics Events</a></li>
+<li role="none"><a role="menuitem" href="accommendation.html" >Accommodation</a></li>
         <li role="none"><a role="menuitem" href="Contact.html">Contact</a></li>
 			</ul>
 		</div>
@@ -321,10 +337,10 @@
 		</section>
     <section style=" display: flex; flex-direction: row; justify-content: space-between; margin-left:5rem ; margin-right: 5rem;">
       <div style="text-align: center;">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdoS7h7kYyQNp2vcxkVtnXJtkxImScIf0z8d-i5MHOVA02FDw/viewform?usp=dialog"><button> Register Here</button></a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdoS7h7kYyQNp2vcxkVtnXJtkxImScIf0z8d-i5MHOVA02FDw/viewform?usp=dialog" style="text-decoration: none;"><button> Register Here</button></a>
             </div>
             <div style="text-align: center;">
-                <a href="contact.html"><button> Any Queries</button></a>
+                <a href="contact.html" style="text-decoration: none;"><button> Any Queries</button></a>
             </div>
     </section>
 	</main>
@@ -342,7 +358,7 @@
             <div class="footer-section" style="flex:1 1 260px;">
                 <h3>Quick Access</h3>
                 <ul style="list-style: none; padding:0; margin:0;">
-                    <li ></li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdoS7h7kYyQNp2vcxkVtnXJtkxImScIf0z8d-i5MHOVA02FDw/viewform?usp=dialog" style="text-decoration: none;">Registration Portal</a></li>
+                    <li ></li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeVLb8qTDRnOKIEju8xxk5gV-0gIVsxdSGXM2mhxozyo65NFg/viewform?usp=dialog" style="text-decoration: none;">Registration Portal</a></li>
                    <li ></li><a href="accommendation.html" style="text-decoration: none;">Accommodation</a></li>
                     <li></li><a href="contact.html" style="text-decoration: none; ">Any Queries</a></li>
                 </ul>
@@ -357,7 +373,7 @@
         </div>
 
         <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0, 212, 255, 0.3);">
-            <p>&copy; 2025 Chakravyuha. All rights reserved. | Built by  <a href="https://www.mahatosumit.com.np/" style="text-decoration: none;font-weight: 600;">SUMIT MAHATO</a>  </p>
+      <p>&copy; 2025 Chakravyuha. All rights reserved. | Built by <a href="https://sumitmahato.com.np/" style="text-decoration: none;font-weight: 600;">SUMIT MAHATO</a></p>
         </div>
     </footer>
 
