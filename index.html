@@ -404,6 +404,159 @@ background: linear-gradient(135deg, var(--gold) 0%, #ff6a284f 100%);  color:#fff
   .events-icon-grid { gap:.75rem; }
 }
 
+/* Sponsors Carousel */
+        .sponsors-carousel {
+            overflow: hidden;
+            margin: 2rem 0;
+            position: relative;
+            font-size: 1.2rem;
+        }
+
+        .sponsors-track {
+            display: flex;
+            animation: scroll 50s linear infinite;
+            width: fit-content;
+            gap: 2rem;
+        }
+
+        .sponsor-item img {
+               width: 100%;
+    height: 100%;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 212, 255, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .sponsor-item img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 32px rgba(0, 212, 255, 0.2);
+        }
+
+        @keyframes scroll {
+            0% {
+            transform: translateX(0);
+            }
+            100% {
+            transform: translateX(100%);
+            }
+        }
+
+        .sponsor-item {
+            flex: 0 0 200px;
+            height: 110px;
+            margin: 0 1rem;
+            font-size: 1.3rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            font-weight: bold;
+            color: #00d4ff;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 4px 16px rgba(0,212,255,0.10);
+            padding: 0.5rem 1rem;
+            gap: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .sponsor-item:hover {
+            transform: scale(1.07) translateY(-6px);
+            box-shadow: 0 10px 32px rgba(0,212,255,0.18);
+            background: linear-gradient(90deg, #00d4ff22, #5865f222);
+        }
+        .sponsor-logo {
+            font-size: 2.2rem;
+            margin-right: 0.7rem;
+            filter: drop-shadow(0 2px 8px #00d4ff88);
+        }
+        .sponsors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+         .sponsors-badge {
+                font-size: 1.3rem;
+            }
+         .sponsors-lead {
+                font-size: 1.3rem;
+            }
+        .sponsors-card {
+            padding: 2rem 1.2rem;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(0,212,255,0.18);
+            box-shadow: 0 8px 32px rgba(0,212,255,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+        }
+        .sponsors-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 16px 40px rgba(0,212,255,0.18);
+            border-color: #00d4ff;
+            background: linear-gradient(120deg, rgba(0,212,255,0.12) 0%, rgba(255,255,255,0.07) 100%);
+        }
+        .sponsors-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #00d4ff;
+            filter: drop-shadow(0 2px 8px #00d4ff88);
+            transition: color 0.3s;
+        }
+        .sponsors-card:hover .sponsors-icon {
+            color: #ff6b6b;
+        }
+        .sponsors-card h3 {
+            font-size: 1.22rem;
+            margin-bottom: 0.7rem;
+            color: #00d4ff;
+        }
+        .sponsors-card p {
+            font-size: 1.05rem;
+            margin-bottom: 0.7rem;
+            opacity: 0.92;
+        }
+        .sponsors-btn {
+            background: linear-gradient(90deg, #00d4ff, #5865f2);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 24px;
+            text-decoration: none;
+            box-shadow: 0 2px 12px #00d4ff44;
+            transition: background 0.3s, transform 0.3s;
+            margin-top: 0.5rem;
+        }
+        .sponsors-btn:hover {
+            background: linear-gradient(90deg, #ff6b6b, #5865f2);
+            transform: scale(1.07);
+        }
+        @media (max-width: 768px) {
+            .sponsors-title {
+                font-size: 1.7rem;
+            }
+            .sponsors-lead {
+                font-size: 1rem;
+            }
+            .sponsors-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .sponsors-card {
+                padding: 1.2rem 0.7rem;
+            }
+            .sponsors-icon {
+                font-size: 1.3rem;
+            }
+            .sponsor-logo {
+                font-size: 1.3rem;
+            }
+        }
 
 
 /* ---------- Footer (kept visually consistent) ---------- */
@@ -532,7 +685,9 @@ html, body { width:100%; overflow-x:hidden; }
         <li role="none"><a role="menuitem" href="#events">Events</a></li>
         <li role="none"><a role="menuitem" href="#timeline">Timeline</a></li>
         <li role="none"><a role="menuitem" href="accommendation.html">Accommodation</a></li>
-                <li role="none"><a role="menuitem" href="contact.html">Contact</a></li>
+        <li role="none"><a role="menuitem" href="contact.html">Contact</a></li>
+        <li role="none"><a role="menuitem" href="#sponsors">Organizer</a></li>
+
 
       </ul>
     </div>
@@ -706,7 +861,34 @@ The Department emphasizes research in autonomous systems, and mechatronics produ
         </div>
     </section>
 
+ <!-- Sponsors Section -->
+    <section class="section" id="sponsors">
+        <h2 class="sponsors-title">Battle Allies</h2>
+        <div class="sponsors-intro">
+            <h1 class="sponsors-badge">JOINTLY ORGANIZED BY</h1>
+            <p class="sponsors-lead">Our Organizer fuel Chakravyuha's innovation, supporting the next wave of tech talent. Connect, collaborate, and grow with the best in the industry.</p>
+        </div>
+        <div class="sponsors-carousel">
+            <div class="sponsors-track">
+             <div class="sponsor-item glass">
+    <img class="sponsor-logo" src="assets/mi_qunix.png" alt="Tech Giant A Logo" />
+  
+</div>
 
+<div class="sponsor-item glass">
+    <img class="sponsor-logo" src="assets/ras.png" alt="Innovation Hub B Logo" />
+</div>
+
+<div class="sponsor-item glass">
+
+    <img class="sponsor-logo" src="assets/vts.png" alt="Startup Lab C Logo" />
+  
+</div>
+               
+            </div>
+        </div>
+       
+    </section>
 
       <!-- Footer (kept same as original) -->
  	<footer class="footer" id="contact">
@@ -737,7 +919,7 @@ The Department emphasizes research in autonomous systems, and mechatronics produ
         </div>
 
         <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0, 212, 255, 0.3);">
-      <p>&copy; 2025 Chakravyuha. All rights reserved. | Built by <a href="https://sumitmahato.com.np/" style="text-decoration: none;font-weight: 600;">SUMIT MAHATO</a></p>
+<p>&copy; 2025 Chakravyuha. All rights reserved. | Built by <a href="https://sumitmahato.com.np/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; font-weight: 600; color: inherit;">SUMIT MAHATO</a></p>
         </div>
     </footer>
 
