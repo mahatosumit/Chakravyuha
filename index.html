@@ -414,7 +414,7 @@ background: linear-gradient(135deg, var(--gold) 0%, #ff6a284f 100%);  color:#fff
 
         .sponsors-track {
             display: flex;
-            animation: scroll 50s linear infinite;
+            animation: scroll 30s linear infinite;
             width: fit-content;
             gap: 2rem;
         }
@@ -438,7 +438,7 @@ background: linear-gradient(135deg, var(--gold) 0%, #ff6a284f 100%);  color:#fff
             transform: translateX(0);
             }
             100% {
-            transform: translateX(100%);
+            transform: translateX(-50%);
             }
         }
 
@@ -815,7 +815,7 @@ The Department emphasizes research in autonomous systems, and mechatronics produ
             </a>
             <a href="Specialevents.html" class="event-icon-card glass">
                 <i class="fa-solid fa-robot fa-3x"></i>
-                <span>Robotics Events</span>
+                <span>Special Events</span>
             </a>
             <a href="Hackathon.html" class="event-icon-card glass">
                 <i class="fa-solid fa-laptop-code fa-3x"></i>
@@ -862,33 +862,40 @@ The Department emphasizes research in autonomous systems, and mechatronics produ
     </section>
 
  <!-- Sponsors Section -->
-    <section class="section" id="sponsors">
-        <h2 class="sponsors-title">Battle Allies</h2>
-        <div class="sponsors-intro">
-            <h1 class="sponsors-badge">JOINTLY ORGANIZED BY</h1>
-            <p class="sponsors-lead">Our Organizer fuel Chakravyuha's innovation, supporting the next wave of tech talent. Connect, collaborate, and grow with the best in the industry.</p>
-        </div>
-        <div class="sponsors-carousel">
-            <div class="sponsors-track">
-             <div class="sponsor-item glass">
-    <img class="sponsor-logo" src="assets/mi_qunix.png" alt="Tech Giant A Logo" />
-  
-</div>
+<section class="section" id="sponsors">
 
-<div class="sponsor-item glass">
-    <img class="sponsor-logo" src="assets/ras.png" alt="Innovation Hub B Logo" />
-</div>
-
-<div class="sponsor-item glass">
-
-    <img class="sponsor-logo" src="assets/vts.png" alt="Startup Lab C Logo" />
-  
-</div>
-               
+    <h2 class="sponsors-title">Battle Allies</h2>
+    <div class="sponsors-intro">
+        <h1 class="sponsors-badge">JOINTLY ORGANIZED BY</h1>
+        <p class="sponsors-lead">Our Organizer fuel Chakravyuha's innovation, supporting the next wave of tech talent. Connect, collaborate, and grow with the best in the industry.</p>
+    </div>
+    <div class="sponsors-carousel">
+        <div class="sponsors-track">
+            <!-- Original items -->
+            <div class="sponsor-item glass">
+                <img class="sponsor-logo" src="assets/mi_qunix.png" alt="Tech Giant A Logo" />
+            </div>
+            <div class="sponsor-item glass">
+                <img class="sponsor-logo" src="assets/ras.png" alt="Innovation Hub B Logo" />
+            </div>
+            <div class="sponsor-item glass">
+                <img class="sponsor-logo" src="assets/vts.png" alt="Startup Lab C Logo" />
+            </div>
+            <!-- Duplicated items for seamless loop -->
+            <div class="sponsor-item glass">
+                <img class="sponsor-logo" src="assets/mi_qunix.png" alt="Tech Giant A Logo" />
+            </div>
+            <div class="sponsor-item glass">
+                <img class="sponsor-logo" src="assets/ras.png" alt="Innovation Hub B Logo" />
+            </div>
+            <div class="sponsor-item glass">
+                <img class="sponsor-logo" src="assets/vts.png" alt="Startup Lab C Logo" />
             </div>
         </div>
-       
-    </section>
+    </div>
+
+</section>
+
 
       <!-- Footer (kept same as original) -->
  	<footer class="footer" id="contact">
